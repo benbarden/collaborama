@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if TopTitle %}{{ TopTitle }}{% else %}collaborama{% endif %}</title>
+
+    {% if AppEnv == 'prod' %}
+        {% include 'components/ga.twig' %}
+    {% endif %}
+
+    <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    {% block layout_header_custom %}{% endblock layout_header_custom %}
+
+</head>
+
+<body>
+
+{% block layout_body %}{% endblock layout_body %}
+
+<script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
