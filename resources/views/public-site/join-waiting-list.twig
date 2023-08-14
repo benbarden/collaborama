@@ -1,8 +1,17 @@
 {% extends 'layouts/base.twig' %}
 
 {% block layout_body %}
-    <h1>Not ready yet...</h1>
-    <p>
-        Oops, you've found our website a bit early! Come back soon and we'll have this page working properly.
-    </p>
+<main>
+    <div class="container">
+    <h1>Waiting list signup</h1>
+    {% if ErrorMsg %}
+        <p>{{ ErrorMsg }}</p>
+    {% else %}
+        <p>Thanks, we've added you to our mailing list.</p>
+    {% endif %}
+    <ul>
+        <li><a href="{{ route('welcome') }}">Back to the homepage</a>.</li>
+    </ul>
+    </div>
+</main>
 {% endblock layout_body %}

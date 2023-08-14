@@ -222,8 +222,14 @@
                 <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" action="{{ route('join-waiting-list') }}" method="post">
                     {{ csrf_field() }}
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                        <label for="floatingInput">Email address</label>
+                        <input type="text" class="form-control" id="waiting_list_given_name" name="waiting_list_given_name" placeholder="name@example.com" maxlength="30">
+                        <label for="waiting_list_given_name">Your first name</label>
+                        <div id="waiting_list_given_name_help" class="form-text">We'd like to be on first name terms with you.</div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="waiting_list_email" name="waiting_list_email" placeholder="name@example.com" maxlength="255">
+                        <label for="waiting_list_email">Email address</label>
+                        <div id="waiting_list_email_help" class="form-text">We hate spam. We won't share your email with anyone else.</div>
                     </div>
                     {#
                     <div class="form-floating mb-3">
