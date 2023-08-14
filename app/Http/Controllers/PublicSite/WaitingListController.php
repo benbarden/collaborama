@@ -41,6 +41,8 @@ class WaitingListController extends Controller
             ]);
             $wlUser->save();
 
+            $bindings['ListPlacement'] = $wlUser->id;
+
         }
 
 

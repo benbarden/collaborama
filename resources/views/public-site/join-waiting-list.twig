@@ -7,7 +7,16 @@
     {% if ErrorMsg %}
         <p>{{ ErrorMsg }}</p>
     {% else %}
-        <p>Thanks, we've added you to our mailing list.</p>
+        <p>Thanks, we've added you to our waiting list.</p>
+        {% if ListPlacement %}
+            <p><strong>You are position #{{ ListPlacement }} on the waiting list</strong>.
+                We'll be in touch with further details soon.</p>
+        {% endif %}
+        <p>
+            While you wait, why not sign up to
+            <a href="https://benbarden.substack.com" target="_blank">Product Solutions</a> -
+            my Substack site for Product Managers.
+        </p>
     {% endif %}
     <ul>
         <li><a href="{{ route('welcome') }}">Back to the homepage</a>.</li>
