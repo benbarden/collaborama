@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\PublicSite;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\WaitingListUser;
 use App\Domain\WaitingListUser\Repo as RepoWaitingListUser;
+use App\Mail\WaitingListSignup;
 
 class WaitingListController extends Controller
 {
@@ -43,10 +46,10 @@ class WaitingListController extends Controller
 
             $bindings['ListPlacement'] = $wlUser->id;
 
+            // Send email
+            Mail::to(env('APP_ADMIN_EMAIL'))->send(new WaitingListSignup($wlUser));
+
         }
-
-
-
 
         return view('public-site.join-waiting-list', $bindings);
     }
