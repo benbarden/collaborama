@@ -10,4 +10,9 @@ class Repo
         $exists = WaitingListUser::where('email', $email)->get();
         return count($exists) > 0;
     }
+
+    public function getByEmail($email)
+    {
+        return WaitingListUser::where('email', $email)->first();
+    }
 }
