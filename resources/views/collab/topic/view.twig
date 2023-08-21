@@ -1,0 +1,32 @@
+{% extends 'layouts/base.twig' %}
+
+{% block layout_body %}
+<main>
+    <div class="container">
+        <h1>View topic</h1>
+        <table class="table table-bordered table-sm">
+            <tr>
+                <td>Created by</td>
+                <td>{{ Topic.user.name }}</td>
+            </tr>
+            <tr>
+                <td>Topic</td>
+                <td>{{ Topic.topic }}</td>
+            </tr>
+            {% if Topic.questions|length %}
+                <tr>
+                    <th>Questions</th>
+                    <th></th>
+                </tr>
+                {% for item in Topic.questions %}
+                <tr>
+                    <td>{{ item.question_no }}</td>
+                    <td>{{ item.question }}</td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+    </div>
+</main>
+
+{% endblock layout_body %}

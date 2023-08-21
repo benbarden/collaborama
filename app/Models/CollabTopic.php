@@ -22,11 +22,11 @@ class CollabTopic extends Model
 
     public function user(): HasOne
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
     public function questions(): HasMany
     {
-        return $this->hasMany(CollabQuestion::class);
+        return $this->hasMany(CollabQuestion::class, 'topic_id')->orderBy('question_no', 'asc');
     }
 }

@@ -14,19 +14,28 @@
                     <th>Topic</th>
                     <th class="text-center">Access</th>
                     <th class="text-center">Status</th>
-                    <th class="text-center">Share code</th>
                     <th class="text-center">Created</th>
+                    <th class="text-center">Public link</th>
                 </tr>
                 </thead>
                 <tbody class="table-group-divider">
                 {% for item in MyTopics %}
                     <tr>
                         <td class="text-center">{{ item.id }}</td>
-                        <td>{{ item.topic }}</td>
+                        <td>
+                            <a href="{{ route('collab.topic.manage', {'topic': item}) }}">
+                                {{ item.topic }}
+                            </a>
+                        </td>
                         <td class="text-center">{{ item.access_type }}</td>
                         <td class="text-center">{{ item.status }}</td>
-                        <td class="text-center">{{ item.share_code }}</td>
                         <td class="text-center">{{ item.created_at }}</td>
+                        <td class="text-center">
+                            <a href="{{ route('collab.topic.view', {'shareCode': item.share_code}) }}">
+                                View
+                            </a> :
+                            <a class="js-share-link-copy" data-id="{{ item.share_code }}" href="javascript:void(0);">Copy link</a>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -36,5 +45,17 @@
         {% endif %}
     </div>
 </main>
+
+<script>
+    var shareCodeBaseUrl = '{{ route('collab.topic.view') }}/';
+    $(function() {
+        $('.js-share-link-copy').on('click', function() {
+            shareCode = $(this).attr('data-id');
+            textToCopy = shareCodeBaseUrl + shareCode;
+            //window.alert(textToCopy);
+            copyToClipboard(textToCopy);
+        });
+    });
+</script>
 
 {% endblock layout_body %}

@@ -10,4 +10,9 @@ class Repo
     {
         return CollabTopic::where('user_id', $userId)->orderBy('created_at', 'desc')->get();
     }
+
+    public function getByShareCode($shareCode)
+    {
+        return CollabTopic::where('share_code', $shareCode)->first();
+    }
 }

@@ -1,0 +1,26 @@
+{% extends 'layouts/base.twig' %}
+
+{% block layout_body %}
+<main>
+    <div class="container">
+        <h1>Manage topic</h1>
+        <p>Topic: {{ Topic.topic }}</p>
+        <h2>Questions</h2>
+        <a href="{{ route('collab.question.create', {'topic': Topic}) }}" class="btn btn-primary">Add question</a>
+        {% if Topic.questions|length %}
+            <br><br>
+            <table class="table table-bordered table-sm">
+                {% for item in Topic.questions %}
+                <tr>
+                    <td>{{ item.question_no }}</td>
+                    <td>{{ item.question }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>You've not added any questions yet.</p>
+        {% endif %}
+    </div>
+</main>
+
+{% endblock layout_body %}

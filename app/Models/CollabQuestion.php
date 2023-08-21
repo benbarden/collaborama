@@ -11,7 +11,7 @@ class CollabQuestion extends Model
 {
     use HasFactory;
 
-    const ANSWER_TEXT = 'Text';
+    const ANSWER_TEXT = 1;
 
     protected $table = 'collab_questions';
 

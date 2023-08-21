@@ -8,6 +8,7 @@ use App\Http\Controllers\PublicSite\WelcomeController;
 use App\Http\Controllers\PublicSite\WaitingListController;
 
 use App\Http\Controllers\Collab\TopicController;
+use App\Http\Controllers\Collab\QuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/collab/topic/create', [TopicController::class, 'create'])->name('collab.topic.create');
     Route::post('/collab/topic/store', [TopicController::class, 'store'])->name('collab.topic.store');
 
+    Route::get('/collab/topic/manage/{topic}', [TopicController::class, 'manage'])->name('collab.topic.manage');
+
+    Route::get('/collab/question/create/{topic}', [QuestionController::class, 'create'])->name('collab.question.create');
+    Route::post('/collab/question/store/{topic}', [QuestionController::class, 'store'])->name('collab.question.store');
+
 });
+
+Route::get('/t/v/{shareCode?}', [TopicController::class, 'view'])->name('collab.topic.view');
 
 require __DIR__.'/auth.php';

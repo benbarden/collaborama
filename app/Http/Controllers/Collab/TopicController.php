@@ -2,28 +2,22 @@
 
 namespace App\Http\Controllers\Collab;
 
-use App\Domain\CollabTopic\ShareCode;
-use App\Domain\WaitingListUser\Repo as RepoWaitingListUser;
-use App\Http\Controllers\Controller;
-use App\Models\CollabTopic;
-use App\Models\User;
-use App\Models\WaitingListUser;
-use App\Providers\RouteServiceProvider;
-use App\Rules\IsAllowedToRegister;
-use App\Rules\IsOnWaitingList;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+
+use App\Http\Controllers\Controller;
+use App\Models\CollabTopic;
+use App\Domain\CollabTopic\ShareCode;
+use App\Domain\WaitingListUser\Repo as RepoWaitingListUser;
+use App\Domain\CollabTopic\Repo as RepoCollabTopic;
 
 class TopicController extends Controller
 {
     public function __construct(
-        protected RepoWaitingListUser $repoWaitingListUser
+        protected RepoWaitingListUser $repoWaitingListUser,
+        protected RepoCollabTopic $repoCollabTopic
     ){
 
     }
@@ -61,5 +55,26 @@ class TopicController extends Controller
         $topic->save();
 
         return redirect(route('user.dashboard'));
+    }
+
+    public function view(Request $request, $shareCode): View
+    {
+        $topic = $this->repoCollabTopic->getByShareCode($shareCode);
+        if (!$topic) abort(404);
+
+        $bindings = [];
+        $bindings['Topic'] = $topic;
+
+        return view('collab.topic.view', $bindings);
+    }
+
+    public function manage(Request $request, CollabTopic $topic): View
+    {
+        if ($topic->user->id != $request->user()->id) abort(403);
+
+        $bindings = [];
+        $bindings['Topic'] = $topic;
+
+        return view('collab.topic.manage', $bindings);
     }
 }
