@@ -24,11 +24,9 @@ Route::get('/', [WelcomeController::class, 'show'])->name('welcome');
 
 Route::match(['get', 'post'], '/join-waiting-list', [WaitingListController::class, 'signup'])->name('join-waiting-list');
 
-Route::middleware(['auth', 'verified'])->group(function() {
-    Route::get('/user/dashboard', [ProfileController::class, 'dashboard'])->name('user.dashboard');
-});
-
 Route::middleware('auth')->group(function () {
+
+    Route::get('/user/dashboard', [ProfileController::class, 'dashboard'])->name('user.dashboard');
 
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
