@@ -1,0 +1,38 @@
+{% extends 'layouts/base.twig' %}
+
+{% block layout_body %}
+<main>
+    <div class="container">
+        <h1>Dashboard</h1>
+        <a class="btn btn-primary" href="{{ route('collab.topic.create') }}" role="button">+ Start a new topic</a>
+        {% if MyTopics %}
+            <h2>Your topics</h2>
+            <table class="table table-bordered table-sm">
+                <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th>Topic</th>
+                    <th class="text-center">Access</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Share code</th>
+                    <th class="text-center">Created</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                {% for item in MyTopics %}
+                    <tr>
+                        <td class="text-center">{{ item.id }}</td>
+                        <td>{{ item.topic }}</td>
+                        <td class="text-center">{{ item.access_type }}</td>
+                        <td class="text-center">{{ item.status }}</td>
+                        <td class="text-center">{{ item.share_code }}</td>
+                        <td class="text-center">{{ item.created_at }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</main>
+
+{% endblock layout_body %}
