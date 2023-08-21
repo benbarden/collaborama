@@ -5,8 +5,8 @@
     <div class="container">
         <h1>Dashboard</h1>
         <a class="btn btn-primary" href="{{ route('collab.topic.create') }}" role="button">+ Start a new topic</a>
-        {% if MyTopics %}
-            <h2>Your topics</h2>
+        <h2>Your topics</h2>
+        {% if MyTopics|length %}
             <table class="table table-bordered table-sm">
                 <thead>
                 <tr>
@@ -31,6 +31,8 @@
                 {% endfor %}
                 </tbody>
             </table>
+        {% else %}
+            <p>You have not created any topics yet. Why not give it a try?</p>
         {% endif %}
     </div>
 </main>
