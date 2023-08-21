@@ -11,6 +11,7 @@
     {% endif %}
 
     <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/assets/dist/js/jquery-3.7.0.min.js"></script>
 
     {% block layout_header_custom %}{% endblock layout_header_custom %}
 
@@ -29,16 +30,22 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
-            </ul>
             {% if AuthUser %}
-                <span class="navbar-text">
-                    Logged in as {{ AuthUser.name }}
-                </span>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('user.dashboard') }}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('logout') }}">Logout</a>
+                </li>
             {% else %}
-                <span class="navbar-text">
-                    Not logged in
-                </span>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('register') }}">Register</a>
+                </li>
             {% endif %}
+            </ul>
         </div>
     </div>
 </nav>

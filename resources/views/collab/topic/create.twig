@@ -1,0 +1,32 @@
+{% extends 'layouts/base.twig' %}
+
+{% block layout_body %}
+<main>
+    <div class="container">
+        <h1>Create topic</h1>
+        <p>
+            Your collaboration starts with a topic. Once you've created your topic, you'll add questions to it
+            in the next step.
+        </p>
+        {% include 'components/form-errors.twig' %}
+        <form method="post" action="{{ route('collab.topic.store') }}">
+            {{ csrf_field() }}
+
+            <div class="mb-3">
+                <label for="topic" class="form-label">Topic name</label>
+                <input type="text" class="form-control" id="topic" name="topic" aria-describedby="name-help" value="{{ old('topic') }}">
+                <div id="name-help" class="form-text">Give your topic a clear but concise name.</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+
+    </div>
+</main>
+
+<script>
+    $(function() {
+        $('#topic').focus();
+    });
+</script>
+{% endblock layout_body %}
