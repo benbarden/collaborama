@@ -7,21 +7,26 @@
         <table class="table table-bordered table-sm">
             <tr>
                 <td>Created by</td>
-                <td>{{ Topic.user.name }}</td>
+                <td colspan="2">{{ Topic.user.name }}</td>
             </tr>
             <tr>
                 <td>Topic</td>
-                <td>{{ Topic.topic }}</td>
+                <td colspan="2">{{ Topic.topic }}</td>
             </tr>
             {% if Topic.questions|length %}
                 <tr>
                     <th>Questions</th>
-                    <th></th>
+                    <th colspan="2"></th>
                 </tr>
                 {% for item in Topic.questions %}
                 <tr>
                     <td>{{ item.question_no }}</td>
                     <td>{{ item.question }}</td>
+                    <td>
+                        <a href="{{ route('collab.answer.create', {'shareCode': Topic.share_code, 'question': item}) }}">
+                            Post answer
+                        </a>
+                    </td>
                 </tr>
                 {% endfor %}
             {% endif %}

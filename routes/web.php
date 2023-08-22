@@ -9,6 +9,7 @@ use App\Http\Controllers\PublicSite\WaitingListController;
 
 use App\Http\Controllers\Collab\TopicController;
 use App\Http\Controllers\Collab\QuestionController;
+use App\Http\Controllers\Collab\AnswerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,9 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::get('/t/v/{shareCode?}', [TopicController::class, 'view'])->name('collab.topic.view');
+Route::get('/t/{shareCode?}', [TopicController::class, 'view'])->name('collab.topic.view');
+
+Route::get('/t/{shareCode}/q/{question}/a', [AnswerController::class, 'create'])->name('collab.answer.create');
+Route::post('/t/{shareCode}/q/{question}/a', [AnswerController::class, 'store'])->name('collab.answer.store');
 
 require __DIR__.'/auth.php';

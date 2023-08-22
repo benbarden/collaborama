@@ -10,13 +10,11 @@ use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\CollabTopic;
 use App\Models\CollabQuestion;
-use App\Domain\WaitingListUser\Repo as RepoWaitingListUser;
 use App\Domain\CollabTopic\Repo as RepoCollabTopic;
 
 class QuestionController extends Controller
 {
     public function __construct(
-        protected RepoWaitingListUser $repoWaitingListUser,
         protected RepoCollabTopic $repoCollabTopic
     ){
 

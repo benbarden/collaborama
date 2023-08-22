@@ -1,0 +1,38 @@
+{% extends 'layouts/base.twig' %}
+
+{% block layout_body %}
+<main>
+    <div class="container">
+        <h1>Post your answer</h1>
+        <p>
+            <strong>Question</strong>: {{ Question.question }}
+        </p>
+        {% include 'components/form-errors.twig' %}
+        <form method="post" action="{{ route('collab.answer.store', {'shareCode': Topic.share_code, 'question': Question}) }}">
+            {{ csrf_field() }}
+
+            <div class="mb-3">
+                <label for="answer" class="form-label">Your answer</label>
+                <input type="text" class="form-control" id="answer" name="answer" aria-describedby="answer-help" value="{{ old('answer') }}">
+                <div id="answer-help" class="form-text">Please post your answer.</div>
+            </div>
+            {% if AuthUser is null %}
+            <div class="mb-3">
+                <label for="guest_name" class="form-label">Your name</label>
+                <input type="text" class="form-control" id="guest_name" name="guest_name" aria-describedby="guest_name_help" value="{{ old('guest_name') }}">
+                <div id="guest_name_help" class="form-text">Please enter your name.</div>
+            </div>
+            {% endif %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+
+    </div>
+</main>
+
+<script>
+    $(function() {
+        $('#answer').focus();
+    });
+</script>
+{% endblock layout_body %}
