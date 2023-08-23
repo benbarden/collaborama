@@ -4,6 +4,23 @@
 <main>
     <div class="container">
         <h1>Dashboard</h1>
+        <p>
+            Hey {{ AuthUser.name}}, thanks for trying collaborama!
+        </p>
+        <p>
+            Our goal is to <strong>save you time</strong> by cutting down on
+            boring, unnecessary meetings.
+        </p>
+        <p>
+            We'll help you to get the answers you need, without a meeting being the default option.
+        </p>
+        <p>
+            It all starts by creating a topic, which you'll then add questions to, before sharing this
+            with your colleagues for feedback.
+        </p>
+        <p>
+            Click the button below to get started.
+        </p>
         <a class="btn btn-primary" href="{{ route('collab.topic.create') }}" role="button">+ Start a new topic</a>
         <h2>Your topics</h2>
         {% if MyTopics|length %}
