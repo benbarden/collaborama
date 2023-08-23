@@ -24,6 +24,6 @@ class CollabQuestion extends Model
 
     public function answers(): HasMany
     {
-        return $this->hasMany(CollabAnswer::class);
+        return $this->hasMany(CollabAnswer::class, 'question_id', 'id');
     }
 }

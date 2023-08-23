@@ -31,8 +31,12 @@
 </main>
 
 <script>
+    var existingAnswer = '{{ Answer|e('js') }}';
     $(function() {
         $('#answer').focus();
+        if (existingAnswer != '') {
+            $('#answer').val(existingAnswer);
+        }
     });
 </script>
 {% endblock layout_body %}

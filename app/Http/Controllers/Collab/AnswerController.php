@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Collab;
 
-use App\Models\CollabAnswer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,12 +10,15 @@ use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\CollabTopic;
 use App\Models\CollabQuestion;
+use App\Models\CollabAnswer;
 use App\Domain\CollabTopic\Repo as RepoCollabTopic;
+use App\Domain\CollabAnswer\Repo as RepoCollabAnswer;
 
 class AnswerController extends Controller
 {
     public function __construct(
-        protected RepoCollabTopic $repoCollabTopic
+        protected RepoCollabTopic $repoCollabTopic,
+        protected RepoCollabAnswer $repoCollabAnswer
     ){
 
     }
@@ -28,11 +30,14 @@ class AnswerController extends Controller
         $topic = $this->repoCollabTopic->getByShareCode($shareCode);
         if (!$topic) abort(404);
 
+        $existingAnswer = $this->repoCollabAnswer->getByQuestionAndUser($question->id, $request->user()->id);
+
         $bindings = [];
         $bindings['Topic'] = $topic;
         $bindings['Question'] = $question;
-        if ($request->user()) {
-            $bindings['AuthUser'] = $request->user();
+        $bindings['AuthUser'] = $request->user();
+        if ($existingAnswer) {
+            $bindings['Answer'] = $existingAnswer->answer;
         }
         return view('collab.answer.create', $bindings);
     }
@@ -56,17 +61,25 @@ class AnswerController extends Controller
         $validator = Validator::make($request->all(), $validationRules);
         $validator->validate();
 
-        $values = [
-            'question_id' => $question->id,
-            'answer' => $request->answer,
-        ];
-        if ($request->user()) {
-            $values['user_id'] = $request->user()->id;
-        } else {
-            $values['guest_name'] = $request->guest_name;
-        }
+        $answer = $this->repoCollabAnswer->getByQuestionAndUser($question->id, $request->user()->id);
+        if ($answer) {
 
-        $answer = CollabAnswer::create($values);
+            $answer->answer = $request->answer;
+
+        } else {
+
+            $values = [
+                'question_id' => $question->id,
+                'answer' => $request->answer,
+            ];
+            if ($request->user()) {
+                $values['user_id'] = $request->user()->id;
+            } else {
+                $values['guest_name'] = $request->guest_name;
+            }
+
+            $answer = CollabAnswer::create($values);
+        }
 
         $answer->save();
 

@@ -7,13 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\CollabTopic;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Domain\CollabTopic\Repo as RepoCollabTopic;
+use App\Domain\CollabAnswer\Repo as RepoCollabAnswer;
 
 class ProfileController extends Controller
 {
     public function __construct(
-        protected RepoCollabTopic $repoCollabTopic
+        protected RepoCollabTopic $repoCollabTopic,
+        protected RepoCollabAnswer $repoCollabAnswer
     ){
 
     }
@@ -23,8 +26,19 @@ class ProfileController extends Controller
         $bindings = [];
 
         $bindings['user'] = $request->user();
-        $bindings['MyTopics'] = $this->repoCollabTopic->getByUser($request->user()->id);
+        $bindings['TopicLimit'] = CollabTopic::BETA_TOPIC_LIMIT;
 
+        $myTopics = $this->repoCollabTopic->getByUser($request->user()->id);
+        if ($myTopics) {
+            $myTopicsForView = [];
+            foreach ($myTopics as $topic) {
+                $topicAnswers = $this->repoCollabAnswer->getByTopic($topic->id);
+                $topic->answers = $topicAnswers;
+                $myTopicsForView[] = $topic;
+            }
+            $bindings['MyTopics'] = $myTopicsForView;
+        }
+        
         return view('user.dashboard', $bindings);
     }
 

@@ -10,11 +10,39 @@
         {% if Topic.questions|length %}
             <br><br>
             <table class="table table-bordered table-sm">
+                <tbody>
                 {% for item in Topic.questions %}
-                <tr>
-                    <td>{{ item.question_no }}</td>
-                    <td>{{ item.question }}</td>
-                </tr>
+                    <tr>
+                        <th class="table-dark">{{ item.question_no }}</th>
+                        <th class="table-dark">{{ item.question }}</th>
+                        <th class="table-dark"></th>
+                    </tr>
+                    {% if item.answers.count > 0 %}
+                        <tr>
+                            <th class="table-info">Posted by</th>
+                            <th class="table-info">Answer</th>
+                            <th class="table-info">Date</th>
+                        </tr>
+                        {% for answer in item.answers %}
+                        <tr>
+                            <td>
+                                {{ answer.user.name }}
+                            </td>
+                            <td>
+                                {{ answer.answer }}
+                            </td>
+                            <td>
+                                {{ answer.created_at }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="2">
+                                <em>No answers yet.</em>
+                            </td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </table>
         {% else %}

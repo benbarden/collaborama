@@ -1,0 +1,19 @@
+<div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" class="form-control" id="name" name="name" aria-describedby="name-help" value="{{ old('name') }}">
+    <div id="name-help" class="form-text">Let us know your first name.</div>
+</div>
+<div class="mb-3">
+    <label for="email" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="email" name="email" aria-describedby="email-help" value="{{ old('email') }}">
+    <div id="email-help" class="form-text">We'll never share your email with anyone else.</div>
+</div>
+<div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password" name="password">
+</div>
+<div class="mb-3">
+    <label for="password_confirmation" class="form-label">Confirm password</label>
+    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+</div>
+<button type="submit" class="btn btn-primary">Submit</button>

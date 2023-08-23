@@ -12,9 +12,9 @@ class CollabTopic extends Model
     use HasFactory;
 
     const ACCESS_PUBLIC = 'Public';
-
     const STATUS_OPEN = 'Open';
     const STATUS_CLOSED = 'Closed';
+    const BETA_TOPIC_LIMIT = 10;
 
     protected $table = 'collab_topics';
 

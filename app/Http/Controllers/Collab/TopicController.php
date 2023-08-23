@@ -12,20 +12,28 @@ use App\Models\CollabTopic;
 use App\Domain\CollabTopic\ShareCode;
 use App\Domain\WaitingListUser\Repo as RepoWaitingListUser;
 use App\Domain\CollabTopic\Repo as RepoCollabTopic;
+use App\Domain\CollabAnswer\Repo as RepoCollabAnswer;
 
 class TopicController extends Controller
 {
     public function __construct(
         protected RepoWaitingListUser $repoWaitingListUser,
-        protected RepoCollabTopic $repoCollabTopic
+        protected RepoCollabTopic $repoCollabTopic,
+        protected RepoCollabAnswer $repoCollabAnswer
     ){
 
     }
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create(Request $request)
     {
+        $topicLimit = CollabTopic::BETA_TOPIC_LIMIT;
+        $userTopicCount = count($this->repoCollabTopic->getByUser($request->user()->id));
+        if ($userTopicCount >= $topicLimit) {
+            return redirect(route('user.dashboard'));
+        }
+
         return view('collab.topic.create');
     }
 
@@ -64,6 +72,19 @@ class TopicController extends Controller
 
         $bindings = [];
         $bindings['Topic'] = $topic;
+
+        $userTopicAnswers = $this->repoCollabAnswer->getByTopicAndUser($topic->id, $request->user()->id);
+        $userTopicAnswersKeys = [];
+        if ($userTopicAnswers) {
+            foreach ($userTopicAnswers as $answer) {
+                $userTopicAnswersKeys[$answer->question_id] = $answer->answer;
+            }
+        }
+        $bindings['UserTopicAnswers'] = $userTopicAnswersKeys;
+
+        if ($request->get('register-success') == 1) {
+            $bindings['RegisterSuccess'] = 1;
+        }
 
         return view('collab.topic.view', $bindings);
     }

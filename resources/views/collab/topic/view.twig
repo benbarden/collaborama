@@ -4,33 +4,86 @@
 <main>
     <div class="container">
         <h1>View topic</h1>
-        <table class="table table-bordered table-sm">
-            <tr>
-                <td>Created by</td>
-                <td colspan="2">{{ Topic.user.name }}</td>
-            </tr>
-            <tr>
-                <td>Topic</td>
-                <td colspan="2">{{ Topic.topic }}</td>
-            </tr>
-            {% if Topic.questions|length %}
-                <tr>
-                    <th>Questions</th>
-                    <th colspan="2"></th>
-                </tr>
-                {% for item in Topic.questions %}
-                <tr>
-                    <td>{{ item.question_no }}</td>
-                    <td>{{ item.question }}</td>
-                    <td>
-                        <a href="{{ route('collab.answer.create', {'shareCode': Topic.share_code, 'question': item}) }}">
-                            Post answer
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            {% endif %}
-        </table>
+        {% if RegisterSuccess == 1 %}
+            <div class="alert alert-success">
+                Thanks for signing up! You can now answer the questions on this topic.
+            </div>
+        {% endif %}
+        {% if Topic.user.id == AuthUser.id %}
+            <div class="alert alert-warning">
+                Hold up! You're the creator of this topic. You can answer it if you like, but wouldn't
+                you prefer to get feedback from your colleagues instead?
+            </div>
+        {% else %}
+            <p>
+                {{ Topic.user.name }} has invited you to answer questions on their topic.
+            </p>
+        {% endif %}
+        <p>
+            Topic: <strong>{{ Topic.topic }}</strong>
+        </p>
+        {% if AuthUser.name %}
+            <p>
+                Your answers will be shared with the author and also accessible via your dashboard.
+            </p>
+            <table class="table table-bordered table-sm">
+                {% if Topic.questions|length %}
+                    <tr>
+                        <th>#</th>
+                        <th>Question</th>
+                        <th>Your answer</th>
+                        <th>Options</th>
+                    </tr>
+                    {% for item in Topic.questions %}
+                        <tr>
+                            <td>{{ item.question_no }}</td>
+                            <td>{{ item.question }}</td>
+                            <td>
+                                {% if item.id in UserTopicAnswers|keys %}
+                                    {{ UserTopicAnswers[item.id] }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if item.id in UserTopicAnswers|keys %}
+                                    <a href="{{ route('collab.answer.create', {'shareCode': Topic.share_code, 'question': item}) }}">
+                                        Modify answer
+                                    </a>
+                                {% else %}
+                                    <a href="{{ route('collab.answer.create', {'shareCode': Topic.share_code, 'question': item}) }}">
+                                        Post answer
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+        {% else %}
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>Sign up</h1>
+                    <p>
+                        Please enter your details to get started.
+                    </p>
+                    {% include 'components/form-errors.twig' %}
+                    <form method="post" action="{{ route('register-via-topic', {'topic': Topic}) }}">
+                        {{ csrf_field() }}
+                        {% include 'auth/partials/register-form.twig' %}
+
+                    </form>
+                </div>
+                <div class="col-md-6">
+                </div>
+            </div>
+
+            <script>
+                $(function() {
+                    $('#name').focus();
+                });
+            </script>
+        {% endif %}
     </div>
 </main>
 
