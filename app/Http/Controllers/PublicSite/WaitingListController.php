@@ -30,7 +30,6 @@ class WaitingListController extends Controller
         }
 
         $bindings = [];
-        $bindings['AppEnv'] = env('APP_ENV');
 
         if ($this->repoWaitingListUser->emailExists($waitingListEmail)) {
 

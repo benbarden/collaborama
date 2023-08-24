@@ -11,8 +11,6 @@ class WelcomeController extends Controller
     {
         $bindings = [];
 
-        $bindings['AppEnv'] = env('APP_ENV');
-
         return view('public-site.welcome', $bindings);
     }
 }
