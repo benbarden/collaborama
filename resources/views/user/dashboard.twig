@@ -36,39 +36,40 @@
             Click the button below to get started.
         </p>
         {% endif %}
+        <h2>Your topics</h2>
         {% if MyTopics|length >= TopicLimit %}
             <p>
                 <strong>You can't create any more topics right now.</strong>
+                Let us know if you'd like to have more topics.
             </p>
         {% else %}
             <a class="btn btn-primary" href="{{ route('collab.topic.create') }}" role="button">+ Start a new topic</a>
         {% endif %}
-        <h2>Your topics</h2>
-        <p>
-            There's a temporary limit of {{ TopicLimit }} topics you can create.
-        </p>
         {% if MyTopics|length %}
             <table class="table table-bordered table-sm">
                 <thead>
                 <tr>
-                    <th class="text-center">#</th>
                     <th>Topic</th>
+                    <th></th>
                     <th class="text-center">Questions</th>
                     <th class="text-center">Answers</th>
                     <th class="text-center">Access</th>
                     <th class="text-center">Status</th>
-                    <th class="text-center">Public link</th>
                     <th class="text-center">Created</th>
                 </tr>
                 </thead>
                 <tbody class="table-group-divider">
                 {% for item in MyTopics %}
                     <tr>
-                        <td class="text-center">{{ item.id }}</td>
                         <td>
-                            <a href="{{ route('collab.topic.manage', {'topic': item}) }}">
-                                {{ item.topic }}
-                            </a>
+                            {{ item.topic }}
+                        </td>
+                        <td class="text-center">
+                            <small>
+                                <a href="{{ route('collab.topic.view', {'shareCode': item.share_code}) }}">View</a> :
+                                <a href="{{ route('collab.topic.manage', {'topic': item}) }}">Edit</a> :
+                                <a class="js-share-link-copy" data-id="{{ item.share_code }}" href="javascript:void(0);">Copy link</a>
+                            </small>
                         </td>
                         <td class="text-center">
                             {{ item.questions.count }}
@@ -78,12 +79,6 @@
                         </td>
                         <td class="text-center">{{ item.access_type }}</td>
                         <td class="text-center">{{ item.status }}</td>
-                        <td class="text-center">
-                            <a href="{{ route('collab.topic.view', {'shareCode': item.share_code}) }}">
-                                View
-                            </a> :
-                            <a class="js-share-link-copy" data-id="{{ item.share_code }}" href="javascript:void(0);">Copy link</a>
-                        </td>
                         <td class="text-center">{{ item.created_at }}</td>
                     </tr>
                 {% endfor %}
