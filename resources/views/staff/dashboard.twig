@@ -58,7 +58,7 @@
                             <th class="text-center">#</th>
                             <th>Given name</th>
                             <th>Email</th>
-                            <th>Registered</th>
+                            <th class="text-center">Registered</th>
                             <th class="text-center">Created</th>
                             <th class="text-center">Allow register</th>
                         </tr>
@@ -73,7 +73,7 @@
                                 <td>
                                     {{ item.email }}
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     {% if item.user.id %}
                                         Yes
                                     {% else %}
