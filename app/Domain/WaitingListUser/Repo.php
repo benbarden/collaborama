@@ -15,4 +15,9 @@ class Repo
     {
         return WaitingListUser::where('email', $email)->first();
     }
+
+    public function getAll()
+    {
+        return WaitingListUser::orderBy('id', 'desc')->get();
+    }
 }

@@ -7,6 +7,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicSite\WelcomeController;
 use App\Http\Controllers\PublicSite\WaitingListController;
 
+use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
+
 use App\Http\Controllers\Collab\TopicController;
 use App\Http\Controllers\Collab\QuestionController;
 use App\Http\Controllers\Collab\AnswerController;
@@ -50,3 +52,9 @@ Route::get('/t/{shareCode}/q/{question}/a', [AnswerController::class, 'create'])
 Route::post('/t/{shareCode}/q/{question}/a', [AnswerController::class, 'store'])->name('collab.answer.store');
 
 require __DIR__.'/auth.php';
+
+Route::middleware('auth.staff')->group(function() {
+
+    Route::get('/staff/dashboard', [StaffDashboardController::class, 'show'])->name('staff.dashboard');
+
+});

@@ -1,0 +1,101 @@
+{% extends 'layouts/base.twig' %}
+
+{% block layout_body %}
+<main>
+    <div class="container">
+        <h1>Staff dashboard</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    You have the power. Use it wisely.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h2>User list</h2>
+                {% if UserList|length %}
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th class="text-center">Topics created</th>
+                            <th class="text-center">Created</th>
+                        </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                        {% for item in UserList %}
+                            <tr>
+                                <td class="text-center">{{ item.id }}</td>
+                                <td>
+                                    {{ item.name }}
+                                </td>
+                                <td>
+                                    {{ item.email }}
+                                </td>
+                                <td class="text-center">
+                                    {{ item.topics.count }}
+                                </td>
+                                <td class="text-center">
+                                    {{ item.created_at|date('Y-m-d') }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>The user list is empty. That doesn't sound right. How on earth are you logged in?!</p>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h2>Waiting list</h2>
+                {% if WaitingListUsers|length %}
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Given name</th>
+                            <th>Email</th>
+                            <th>Registered</th>
+                            <th class="text-center">Created</th>
+                            <th class="text-center">Allow register</th>
+                        </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                        {% for item in WaitingListUsers %}
+                            <tr>
+                                <td class="text-center">{{ item.id }}</td>
+                                <td>
+                                    {{ item.given_name }}
+                                </td>
+                                <td>
+                                    {{ item.email }}
+                                </td>
+                                <td>
+                                    {% if item.user.id %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    {{ item.created_at|date('Y-m-d') }}
+                                </td>
+                                <td class="text-center">
+                                    {{ item.allow_register }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>The waiting list is empty. That doesn't sound right. Maybe we broke something.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock layout_body %}
