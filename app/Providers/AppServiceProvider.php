@@ -20,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        view()->share('AppEnv', env('APP_ENV'));
+        view()->share('APP_URL', env('APP_URL'));
+        view()->share('APP_ENV', env('APP_ENV'));
     }
 }

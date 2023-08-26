@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% if TopTitle %}{{ TopTitle }}{% else %}collaborama{% endif %}</title>
 
-    {% if AppEnv == 'prod' %}
+    {% if APP_ENV == 'prod' %}
         {% include 'components/ga.twig' %}
     {% endif %}
 
@@ -29,15 +29,15 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a id="nav-link-home" class="nav-link" aria-current="page" href="/">Home</a>
                 </li>
             {% if AuthUser %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.dashboard') }}">Dashboard</a>
+                    <a id="nav-link-user-dashboard" class="nav-link" href="{{ route('user.dashboard') }}">Dashboard</a>
                 </li>
                     {% if AuthUser.isStaff() %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('staff.dashboard') }}">Staff</a>
+                        <a id="nav-link-staff-dashboard" class="nav-link" href="{{ route('staff.dashboard') }}">Staff</a>
                     </li>
                     {% endif %}
                 <li class="nav-item">
@@ -45,10 +45,10 @@
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">Login</a>
+                    <a id="nav-link-login" class="nav-link" href="{{ route('login') }}">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">Register</a>
+                    <a id="nav-link-register" class="nav-link" href="{{ route('register') }}">Register</a>
                 </li>
             {% endif %}
             </ul>
@@ -59,6 +59,27 @@
 {% block layout_body %}{% endblock layout_body %}
 
 <script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    var currentPage = window.location.pathname;
+    switch (currentPage) {
+        case '/':
+            $('#nav-link-home').addClass('active');
+            break;
+        case '/login':
+            $('#nav-link-login').addClass('active');
+            break;
+        case '/register':
+            $('#nav-link-register').addClass('active');
+            break;
+        case '/user/dashboard':
+            $('#nav-link-user-dashboard').addClass('active');
+            break;
+        case '/staff/dashboard':
+            $('#nav-link-staff-dashboard').addClass('active');
+            break;
+    }
+</script>
 
 </body>
 
