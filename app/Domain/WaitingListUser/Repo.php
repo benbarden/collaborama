@@ -5,6 +5,11 @@ namespace App\Domain\WaitingListUser;
 use App\Models\WaitingListUser;
 class Repo
 {
+    public function find($id)
+    {
+        return WaitingListUser::find($id);
+    }
+
     public function emailExists($email)
     {
         $exists = WaitingListUser::where('email', $email)->get();

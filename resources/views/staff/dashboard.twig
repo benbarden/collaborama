@@ -57,9 +57,9 @@
                         <tr>
                             <th class="text-center">#</th>
                             <th>Given name / Email</th>
-                            <th class="text-center">Registered</th>
                             <th class="text-center">Created</th>
-                            <th class="text-center">Allow register</th>
+                            <th class="text-center">Invited</th>
+                            <th class="text-center">Registered</th>
                         </tr>
                         </thead>
                         <tbody class="table-group-divider">
@@ -74,17 +74,25 @@
                                     </small>
                                 </td>
                                 <td class="text-center">
+                                    {{ item.created_at|date('Y-m-d') }}
+                                </td>
+                                <td class="text-center">
+                                    {% if item.allow_register == 1 %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                        <br>
+                                        <small>
+                                            <a href="{{ route('staff.invite-from-waiting-list', {'waitingListUser': item}) }}">Invite</a>
+                                        </small>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
                                     {% if item.user.id %}
                                         Yes
                                     {% else %}
                                         No
                                     {% endif %}
-                                </td>
-                                <td class="text-center">
-                                    {{ item.created_at|date('Y-m-d') }}
-                                </td>
-                                <td class="text-center">
-                                    {{ item.allow_register }}
                                 </td>
                             </tr>
                         {% endfor %}

@@ -57,4 +57,6 @@ Route::middleware('auth.staff')->group(function() {
 
     Route::get('/staff/dashboard', [StaffDashboardController::class, 'show'])->name('staff.dashboard');
 
+    Route::get('/staff/invite-from-waiting-list/{waitingListUser}', [StaffDashboardController::class, 'inviteFromWaitingList'])->name('staff.invite-from-waiting-list');
+
 });
