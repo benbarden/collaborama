@@ -25,6 +25,7 @@ class QuestionController extends Controller
     public function create(Request $request, CollabTopic $topic): View
     {
         $bindings = [];
+        $bindings['TopTitle'] = "Add question";
         $bindings['Topic'] = $topic;
         return view('collab.question.create', $bindings);
     }

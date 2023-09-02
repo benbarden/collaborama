@@ -28,13 +28,15 @@ class TopicController extends Controller
      */
     public function create(Request $request)
     {
+        $bindings['TopTitle'] = "Create topic";
+
         $topicLimit = CollabTopic::BETA_TOPIC_LIMIT;
         $userTopicCount = count($this->repoCollabTopic->getByUser($request->user()->id));
         if ($userTopicCount >= $topicLimit) {
             return redirect(route('user.dashboard'));
         }
 
-        return view('collab.topic.create');
+        return view('collab.topic.create', $bindings);
     }
 
     /**
@@ -71,6 +73,7 @@ class TopicController extends Controller
         if (!$topic) abort(404);
 
         $bindings = [];
+        $bindings['TopTitle'] = "View topic: ".$topic->topic;
         $bindings['Topic'] = $topic;
 
         $userTopicAnswers = $this->repoCollabAnswer->getByTopicAndUser($topic->id, $request->user()->id);
@@ -94,6 +97,7 @@ class TopicController extends Controller
         if ($topic->user->id != $request->user()->id) abort(403);
 
         $bindings = [];
+        $bindings['TopTitle'] = "Manage topic";
         $bindings['Topic'] = $topic;
 
         if ($request->get('create-success') == 1) {

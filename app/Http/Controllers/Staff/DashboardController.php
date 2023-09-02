@@ -24,6 +24,7 @@ class DashboardController extends Controller
     {
         $bindings = [];
 
+        $bindings['TopTitle'] = "Staff dashboard";
         $bindings['WaitingListUsers'] = $this->repoWaitingListUser->getAll();
         $bindings['UserList'] = $this->repoUser->getAll();
 

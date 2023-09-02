@@ -4,7 +4,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% if TopTitle %}{{ TopTitle }}{% else %}collaborama{% endif %}</title>
+    <title>{% if TopTitle %}{{ TopTitle }} - collaborama{% else %}collaborama{% endif %}</title>
 
     {% if APP_ENV == 'prod' %}
         {% include 'components/ga.twig' %}

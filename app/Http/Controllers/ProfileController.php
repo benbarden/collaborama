@@ -25,6 +25,7 @@ class ProfileController extends Controller
     {
         $bindings = [];
 
+        $bindings['TopTitle'] = "Dashboard";
         $bindings['user'] = $request->user();
         $bindings['TopicLimit'] = CollabTopic::BETA_TOPIC_LIMIT;
 
@@ -38,7 +39,7 @@ class ProfileController extends Controller
             }
             $bindings['MyTopics'] = $myTopicsForView;
         }
-        
+
         return view('user.dashboard', $bindings);
     }
 

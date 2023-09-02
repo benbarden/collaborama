@@ -33,6 +33,7 @@ class AnswerController extends Controller
         $existingAnswer = $this->repoCollabAnswer->getByQuestionAndUser($question->id, $request->user()->id);
 
         $bindings = [];
+        $bindings['TopTitle'] = "Post your answer";
         $bindings['Topic'] = $topic;
         $bindings['Question'] = $question;
         $bindings['AuthUser'] = $request->user();
