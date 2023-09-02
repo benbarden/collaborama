@@ -11,8 +11,10 @@
         {% endif %}
         {% if Topic.user.id == AuthUser.id %}
             <div class="alert alert-warning">
-                Hold up! You're the creator of this topic. You can answer it if you like, but wouldn't
+                You're the creator of this topic. You can answer it if you like, but wouldn't
                 you prefer to get feedback from your colleagues instead?
+                <br>
+                <a href="{{ route('collab.topic.manage', {'topic': Topic}) }}">Manage your topic here</a>.
             </div>
         {% else %}
             <p>

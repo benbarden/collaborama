@@ -62,7 +62,7 @@ class TopicController extends Controller
 
         $topic->save();
 
-        return redirect(route('user.dashboard'));
+        return redirect(route('collab.topic.manage', ['topic' => $topic, 'create-success' => 1]));
     }
 
     public function view(Request $request, $shareCode): View
@@ -96,6 +96,21 @@ class TopicController extends Controller
         $bindings = [];
         $bindings['Topic'] = $topic;
 
+        if ($request->get('create-success') == 1) {
+            $bindings['CreateSuccess'] = 1;
+        }
+
         return view('collab.topic.manage', $bindings);
+    }
+
+    public function delete(Request $request, CollabTopic $topic)
+    {
+        if ($topic->user->id != $request->user()->id) abort(403);
+
+        if ($topic->questions()->count() > 0) abort(400);
+
+        $topic->delete();
+
+        return 'Deleted';
     }
 }

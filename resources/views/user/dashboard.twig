@@ -50,26 +50,22 @@
                 <thead>
                 <tr>
                     <th>Topic</th>
-                    <th></th>
                     <th class="text-center">Questions</th>
                     <th class="text-center">Answers</th>
+                    <th class="text-center">Share</th>
                     <th class="text-center">Access</th>
                     <th class="text-center">Status</th>
                     <th class="text-center">Created</th>
+                    <th class="text-center">Options</th>
                 </tr>
                 </thead>
                 <tbody class="table-group-divider">
                 {% for item in MyTopics %}
                     <tr>
                         <td>
-                            {{ item.topic }}
-                        </td>
-                        <td class="text-center">
-                            <small>
-                                <a href="{{ route('collab.topic.view', {'shareCode': item.share_code}) }}">View</a> :
-                                <a href="{{ route('collab.topic.manage', {'topic': item}) }}">Edit</a> :
-                                <a class="js-share-link-copy" data-id="{{ item.share_code }}" href="javascript:void(0);">Copy link</a>
-                            </small>
+                            <a href="{{ route('collab.topic.manage', {'topic': item}) }}">
+                                {{ item.topic }}
+                            </a>
                         </td>
                         <td class="text-center">
                             {{ item.questions.count }}
@@ -77,9 +73,24 @@
                         <td class="text-center">
                             {{ item.answers.count }}
                         </td>
+                        <td class="text-center">
+                            <small>
+                                <a href="{{ route('collab.topic.view', {'shareCode': item.share_code}) }}">View</a> :
+                                <a class="js-share-link-copy" data-id="{{ item.share_code }}" href="javascript:void(0);">Copy link</a>
+                            </small>
+                        </td>
                         <td class="text-center">{{ item.access_type }}</td>
                         <td class="text-center">{{ item.status }}</td>
                         <td class="text-center">{{ item.created_at }}</td>
+                        <td class="text-center">
+                            {% if item.questions.count == 0 %}
+                            <i class="fa-regular fa-trash" style="cursor: hand;" title="Delete topic"
+                               hx-get="{{ route('collab.topic.delete', {'topic': item}) }}"
+                               hx-confirm="Delete this topic?"
+                               hx-swap="outerHTML"
+                               ></i>
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

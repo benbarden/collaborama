@@ -4,7 +4,16 @@
 <main>
     <div class="container">
         <h1>Manage topic</h1>
+        {% if CreateSuccess == 1 %}
+            <div class="alert alert-success">
+                Successfully created topic: <strong>{{ Topic.topic }}</strong>.
+                <br>Add some questions below.
+            </div>
+        {% endif %}
         <p>Topic: {{ Topic.topic }}</p>
+        <p>
+            <a href="{{ route('collab.topic.view', {'shareCode': Topic.share_code}) }}">View your topic</a>.
+        </p>
         <h2>Questions</h2>
         <a href="{{ route('collab.question.create', {'topic': Topic}) }}" class="btn btn-primary">Add question</a>
         {% if Topic.questions|length %}

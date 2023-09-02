@@ -44,6 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/collab/question/create/{topic}', [QuestionController::class, 'create'])->name('collab.question.create');
     Route::post('/collab/question/store/{topic}', [QuestionController::class, 'store'])->name('collab.question.store');
 
+    Route::get('/collab/topic/delete/{topic}', [TopicController::class, 'delete'])->name('collab.topic.delete');
+
 });
 
 Route::get('/t/{shareCode?}', [TopicController::class, 'view'])->name('collab.topic.view');

@@ -14,7 +14,7 @@ class CollabTopic extends Model
     const ACCESS_PUBLIC = 'Public';
     const STATUS_OPEN = 'Open';
     const STATUS_CLOSED = 'Closed';
-    const BETA_TOPIC_LIMIT = 10;
+    const BETA_TOPIC_LIMIT = 20;
 
     protected $table = 'collab_topics';
 
