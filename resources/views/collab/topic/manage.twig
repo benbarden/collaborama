@@ -6,8 +6,40 @@
         <h1>Manage topic</h1>
         {% if CreateSuccess == 1 %}
             <div class="alert alert-success">
-                Successfully created topic: <strong>{{ Topic.topic }}</strong>.
-                <br>Add some questions below.
+                <div class="alert-fa">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <div>
+                    Successfully created topic: <strong>{{ Topic.topic }}</strong>.
+                    <br>Add some questions below.
+                </div>
+            </div>
+        {% endif %}
+        {% if Topic.status == 'Closed' %}
+            <div class="alert alert-danger">
+                <div class="alert-fa">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </div>
+                <div>
+                    <strong>This topic is closed</strong>.
+                    <br>No further answers can be posted.
+                </div>
+            </div>
+        {% endif %}
+        {% if Topic.questions.count >= 6 %}
+            <div class="alert alert-warning">
+                <div class="alert-fa">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div>
+                    <strong>We recommend a maximum of 6 questions per topic</strong>.
+                    <br>
+                    Keeping topics focused and not flooding people with questions can help to
+                    keep the answers focused and helpful.
+                    <br>
+                    Adding a lot of questions can mean your topic is a bit broad.
+                    However, you can add more if you wish.
+                </div>
             </div>
         {% endif %}
         <p>Topic: {{ Topic.topic }}</p>

@@ -55,6 +55,7 @@
                     <th class="text-center">Share</th>
                     <th class="text-center">Access</th>
                     <th class="text-center">Status</th>
+                    <th class="text-center">Change status</th>
                     <th class="text-center">Created</th>
                     <th class="text-center">Options</th>
                 </tr>
@@ -80,15 +81,38 @@
                             </small>
                         </td>
                         <td class="text-center">{{ item.access_type }}</td>
-                        <td class="text-center">{{ item.status }}</td>
+                        <td class="text-center">
+                            {{ item.status }}
+                        </td>
+                        <td class="text-center">
+                            {% if item.status == 'Open' %}
+                                <button class="btn btn-sm btn-outline-primary" title="Close topic"
+                                      hx-get="{{ route('collab.topic.close', {'topic': item}) }}"
+                                      hx-confirm="Close this topic?"
+                                      hx-swap="outerHTML">
+                                <i class="fa-solid fa-lock"></i>
+                                    Close
+                                </button>
+                            {% elseif item.status == 'Closed' %}
+                                <button class="btn btn-sm btn-outline-primary"  title="Reopen topic"
+                                      hx-get="{{ route('collab.topic.reopen', {'topic': item}) }}"
+                                      hx-confirm="Reopen this topic?"
+                                      hx-swap="outerHTML">
+                                <i class="fa-solid fa-lock-open"></i>
+                                    Reopen
+                                </button>
+                            {% endif %}
+                        </td>
                         <td class="text-center">{{ item.created_at }}</td>
                         <td class="text-center">
                             {% if item.questions.count == 0 %}
-                            <i class="fa-regular fa-trash" style="cursor: hand;" title="Delete topic"
-                               hx-get="{{ route('collab.topic.delete', {'topic': item}) }}"
-                               hx-confirm="Delete this topic?"
-                               hx-swap="outerHTML"
-                               ></i>
+                                <button class="btn btn-sm btn-outline-primary" title="Delete topic"
+                                        hx-get="{{ route('collab.topic.delete', {'topic': item}) }}"
+                                        hx-confirm="Delete this topic?"
+                                        hx-swap="outerHTML">
+                                    <i class="fa-solid fa-trash"></i>
+                                    Delete
+                                </button>
                             {% endif %}
                         </td>
                     </tr>

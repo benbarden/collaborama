@@ -9,12 +9,31 @@
                 Thanks for signing up! You can now answer the questions on this topic.
             </div>
         {% endif %}
-        {% if Topic.user.id == AuthUser.id %}
-            <div class="alert alert-warning">
-                You're the creator of this topic. You can answer it if you like, but wouldn't
-                you prefer to get feedback from your colleagues instead?
-                <br>
-                <a href="{{ route('collab.topic.manage', {'topic': Topic}) }}">Manage your topic here</a>.
+        {% if Topic.status == 'Closed' %}
+            <div class="alert alert-danger">
+                <div class="alert-fa">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </div>
+                <div>
+                    <strong>This topic is closed</strong>.
+                    <br>No further answers can be posted.
+                    {% if Topic.user.id == AuthUser.id %}
+                        <br>
+                        <a href="{{ route('collab.topic.manage', {'topic': Topic}) }}">Manage your topic here</a>.
+                    {% endif %}
+                </div>
+            </div>
+        {% elseif Topic.user.id == AuthUser.id %}
+            <div class="alert alert-primary">
+                <div class="alert-fa">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div>
+                    You're the creator of this topic. You can answer it if you like, but wouldn't
+                    you prefer to get feedback from your colleagues instead?
+                    <br>
+                    <a href="{{ route('collab.topic.manage', {'topic': Topic}) }}">Manage your topic here</a>.
+                </div>
             </div>
         {% else %}
             <p>
@@ -25,9 +44,11 @@
             Topic: <strong>{{ Topic.topic }}</strong>
         </p>
         {% if AuthUser.name %}
-            <p>
-                Your answers will be shared with the author and also accessible via your dashboard.
-            </p>
+            {% if Topic.status == 'Open' %}
+                <p>
+                    Your answers will be shared with the author and also accessible via your dashboard.
+                </p>
+            {% endif %}
             <table class="table table-bordered table-sm">
                 {% if Topic.questions|length %}
                     <tr>
@@ -48,14 +69,16 @@
                                 {% endif %}
                             </td>
                             <td>
-                                {% if item.id in UserTopicAnswers|keys %}
-                                    <a href="{{ route('collab.answer.create', {'shareCode': Topic.share_code, 'question': item}) }}">
-                                        Modify answer
-                                    </a>
-                                {% else %}
-                                    <a href="{{ route('collab.answer.create', {'shareCode': Topic.share_code, 'question': item}) }}">
-                                        Post answer
-                                    </a>
+                                {% if Topic.status == 'Open' %}
+                                    {% if item.id in UserTopicAnswers|keys %}
+                                        <a href="{{ route('collab.answer.create', {'shareCode': Topic.share_code, 'question': item}) }}">
+                                            Modify answer
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ route('collab.answer.create', {'shareCode': Topic.share_code, 'question': item}) }}">
+                                            Post answer
+                                        </a>
+                                    {% endif %}
                                 {% endif %}
                             </td>
                         </tr>

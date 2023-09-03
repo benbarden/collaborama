@@ -29,4 +29,14 @@ class CollabTopic extends Model
     {
         return $this->hasMany(CollabQuestion::class, 'topic_id')->orderBy('question_no', 'asc');
     }
+
+    public function setStatusOpen()
+    {
+        $this->status = self::STATUS_OPEN;
+    }
+
+    public function setStatusClosed()
+    {
+        $this->status = self::STATUS_CLOSED;
+    }
 }

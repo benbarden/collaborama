@@ -1,0 +1,11 @@
+.alert .alert-fa {
+    display: table-cell;
+    font-size: 30px;
+    padding-right: 15px;
+    vertical-align: middle;
+}
+
+.alert div,
+.alert span {
+    display: table-cell;
+}

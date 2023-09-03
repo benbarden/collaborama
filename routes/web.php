@@ -45,6 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/collab/question/store/{topic}', [QuestionController::class, 'store'])->name('collab.question.store');
 
     Route::get('/collab/topic/delete/{topic}', [TopicController::class, 'delete'])->name('collab.topic.delete');
+    Route::get('/collab/topic/close/{topic}', [TopicController::class, 'close'])->name('collab.topic.close');
+    Route::get('/collab/topic/reopen/{topic}', [TopicController::class, 'reopen'])->name('collab.topic.reopen');
 
 });
 

@@ -117,4 +117,24 @@ class TopicController extends Controller
 
         return 'Deleted';
     }
+
+    public function close(Request $request, CollabTopic $topic)
+    {
+        if ($topic->user->id != $request->user()->id) abort(403);
+
+        $topic->setStatusClosed();
+        $topic->save();
+
+        return '<small>Closed</small>';
+    }
+
+    public function reopen(Request $request, CollabTopic $topic)
+    {
+        if ($topic->user->id != $request->user()->id) abort(403);
+
+        $topic->setStatusOpen();
+        $topic->save();
+
+        return '<small>Reopened</small>';
+    }
 }

@@ -25,10 +25,14 @@ class AnswerController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(Request $request, $shareCode, CollabQuestion $question): View
+    public function create(Request $request, $shareCode, CollabQuestion $question): View|RedirectResponse
     {
         $topic = $this->repoCollabTopic->getByShareCode($shareCode);
         if (!$topic) abort(404);
+
+        if ($topic->status == CollabTopic::STATUS_CLOSED) {
+            return redirect(route('collab.topic.view', ['shareCode' => $topic->share_code]));
+        }
 
         $existingAnswer = $this->repoCollabAnswer->getByQuestionAndUser($question->id, $request->user()->id);
 
