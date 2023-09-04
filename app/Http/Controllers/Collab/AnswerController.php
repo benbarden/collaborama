@@ -76,12 +76,8 @@ class AnswerController extends Controller
             $values = [
                 'question_id' => $question->id,
                 'answer' => $request->answer,
+                'user_id' => $request->user()->id,
             ];
-            if ($request->user()) {
-                $values['user_id'] = $request->user()->id;
-            } else {
-                $values['guest_name'] = $request->guest_name;
-            }
 
             $answer = CollabAnswer::create($values);
         }
@@ -91,4 +87,44 @@ class AnswerController extends Controller
         return redirect(route('collab.topic.view', ['shareCode' => $topic->share_code]));
     }
 
+    public function needsDiscussionOn(Request $request, $shareCode, CollabQuestion $question)
+    {
+        $topic = $this->repoCollabTopic->getByShareCode($shareCode);
+        if (!$topic) abort(404);
+
+        $answer = $this->repoCollabAnswer->getByQuestionAndUser($question->id, $request->user()->id);
+        if ($answer) {
+
+            $answer->needs_discussion = 1;
+
+        } else {
+
+            $values = [
+                'question_id' => $question->id,
+//                'answer' => $request->answer,
+                'user_id' => $request->user()->id,
+                'needs_discussion' => 1,
+            ];
+
+            $answer = CollabAnswer::create($values);
+
+        }
+        $answer->save();
+
+        return '<small>Needs discussion</small>';
+    }
+
+    public function needsDiscussionOff(Request $request, $shareCode, CollabQuestion $question)
+    {
+        $topic = $this->repoCollabTopic->getByShareCode($shareCode);
+        if (!$topic) abort(404);
+
+        $answer = $this->repoCollabAnswer->getByQuestionAndUser($question->id, $request->user()->id);
+        if ($answer) {
+            $answer->needs_discussion = 0;
+        }
+        $answer->save();
+
+        return '<small>(Done!)</small>';
+    }
 }

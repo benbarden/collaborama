@@ -54,15 +54,15 @@
                 <tbody>
                 {% for item in Topic.questions %}
                     <tr>
-                        <th class="table-dark">{{ item.question_no }}</th>
-                        <th class="table-dark">{{ item.question }}</th>
-                        <th class="table-dark"></th>
+                        <th class="table-primary">{{ item.question_no }}</th>
+                        <th class="table-primary">{{ item.question }}</th>
+                        <th class="table-primary"></th>
                     </tr>
                     {% if item.answers.count > 0 %}
                         <tr>
-                            <th class="table-info">Posted by</th>
-                            <th class="table-info">Answer</th>
-                            <th class="table-info">Date</th>
+                            <th>Posted by</th>
+                            <th>Answer</th>
+                            <th>Date</th>
                         </tr>
                         {% for answer in item.answers %}
                         <tr>
@@ -71,6 +71,12 @@
                             </td>
                             <td>
                                 {{ answer.answer }}
+                                {% if answer.needs_discussion == 1 %}
+                                    <span class="badge text-bg-warning">Needs discussion</span>
+                                {% endif %}
+                                {% if answer.dont_know == 1 %}
+                                    <span class="badge text-bg-secondary">Don't know</span>
+                                {% endif %}
                             </td>
                             <td>
                                 {{ answer.created_at }}

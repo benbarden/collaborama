@@ -13,7 +13,7 @@ class CollabAnswer extends Model
 
     protected $table = 'collab_answers';
 
-    protected $fillable = ['question_id', 'answer', 'user_id', 'guest_name'];
+    protected $fillable = ['question_id', 'answer', 'user_id', 'guest_name', 'needs_discussion', 'dont_know'];
 
     public function question(): BelongsTo
     {

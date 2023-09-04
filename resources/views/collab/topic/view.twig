@@ -52,33 +52,51 @@
             <table class="table table-bordered table-sm">
                 {% if Topic.questions|length %}
                     <tr>
-                        <th>#</th>
+                        <th class="text-center">#</th>
                         <th>Question</th>
                         <th>Your answer</th>
-                        <th>Options</th>
+                        <th class="text-center">Options</th>
                     </tr>
                     {% for item in Topic.questions %}
                         <tr>
-                            <td>{{ item.question_no }}</td>
+                            <td class="text-center">{{ item.question_no }}</td>
                             <td>{{ item.question }}</td>
                             <td>
                                 {% if item.id in UserTopicAnswers|keys %}
-                                    {{ UserTopicAnswers[item.id] }}
+                                    {{ UserTopicAnswers[item.id]['answer'] }}
+                                    {% if Topic.status == 'Open' %}
+                                        (<a href="{{ route('collab.answer.create', {'shareCode': Topic.share_code, 'question': item}) }}">Modify</a>)
+                                    {% endif %}
                                 {% else %}
-                                    -
+                                    {% if Topic.status == 'Open' %}
+                                    <a href="{{ route('collab.answer.create', {'shareCode': Topic.share_code, 'question': item}) }}">
+                                        Post answer
+                                    </a>
+                                    {% endif %}
                                 {% endif %}
                             </td>
-                            <td>
-                                {% if Topic.status == 'Open' %}
-                                    {% if item.id in UserTopicAnswers|keys %}
-                                        <a href="{{ route('collab.answer.create', {'shareCode': Topic.share_code, 'question': item}) }}">
-                                            Modify answer
-                                        </a>
-                                    {% else %}
-                                        <a href="{{ route('collab.answer.create', {'shareCode': Topic.share_code, 'question': item}) }}">
-                                            Post answer
-                                        </a>
+                            <td class="text-center">
+                                {% set AnswerNeedsDiscussion = 0 %}
+                                {% if item.id in UserTopicAnswers|keys %}
+                                    {% if UserTopicAnswers[item.id]['needs_discussion'] == 1 %}
+                                        {% set AnswerNeedsDiscussion = 1 %}
                                     {% endif %}
+                                {% endif %}
+                                {% if AnswerNeedsDiscussion == 1 %}
+                                    Needs discussion
+                                    <button class="btn btn-sm btn-outline-primary" title="Unmark as Needs discussion"
+                                            hx-get="{{ route('collab.answer.needs-discussion-off', {'shareCode': Topic.share_code, 'question': item}) }}"
+                                            hx-confirm="Unmark as Needs discussion?"
+                                            hx-swap="outerHTML">
+                                        Unmark
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-sm btn-outline-primary" title="Mark as Needs discussion"
+                                            hx-get="{{ route('collab.answer.needs-discussion-on', {'shareCode': Topic.share_code, 'question': item}) }}"
+                                            hx-confirm="Mark as Needs discussion?"
+                                            hx-swap="outerHTML">
+                                        Mark as Needs discussion
+                                    </button>
                                 {% endif %}
                             </td>
                         </tr>

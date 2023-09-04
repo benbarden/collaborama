@@ -80,7 +80,7 @@ class TopicController extends Controller
         $userTopicAnswersKeys = [];
         if ($userTopicAnswers) {
             foreach ($userTopicAnswers as $answer) {
-                $userTopicAnswersKeys[$answer->question_id] = $answer->answer;
+                $userTopicAnswersKeys[$answer->question_id] = json_decode(json_encode($answer), true);
             }
         }
         $bindings['UserTopicAnswers'] = $userTopicAnswersKeys;

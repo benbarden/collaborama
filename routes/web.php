@@ -48,12 +48,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/collab/topic/close/{topic}', [TopicController::class, 'close'])->name('collab.topic.close');
     Route::get('/collab/topic/reopen/{topic}', [TopicController::class, 'reopen'])->name('collab.topic.reopen');
 
+    Route::get('/t/{shareCode}/q/{question}/a', [AnswerController::class, 'create'])->name('collab.answer.create');
+    Route::post('/t/{shareCode}/q/{question}/a', [AnswerController::class, 'store'])->name('collab.answer.store');
+
+    Route::get('/t/{shareCode}/q/{question}/nd-on', [AnswerController::class, 'needsDiscussionOn'])->name('collab.answer.needs-discussion-on');
+    Route::get('/t/{shareCode}/q/{question}/nd-off', [AnswerController::class, 'needsDiscussionOff'])->name('collab.answer.needs-discussion-off');
+
+    Route::get('/t/{shareCode}/q/{question}/dk-on', [AnswerController::class, 'dontKnowOn'])->name('collab.answer.dont-know-on');
+    Route::get('/t/{shareCode}/q/{question}/dk-off', [AnswerController::class, 'dontKnowOff'])->name('collab.answer.dont-know-off');
+
 });
 
 Route::get('/t/{shareCode?}', [TopicController::class, 'view'])->name('collab.topic.view');
-
-Route::get('/t/{shareCode}/q/{question}/a', [AnswerController::class, 'create'])->name('collab.answer.create');
-Route::post('/t/{shareCode}/q/{question}/a', [AnswerController::class, 'store'])->name('collab.answer.store');
 
 require __DIR__.'/auth.php';
 
