@@ -31,6 +31,9 @@ class WaitingListController extends Controller
 
         $bindings = [];
 
+        $bindings['ErrorMsg'] = 'Registration is currently closed.';
+
+        /*
         if ($this->repoWaitingListUser->emailExists($waitingListEmail)) {
 
             $bindings['ErrorMsg'] = 'Your email is already on our waiting list.';
@@ -49,6 +52,7 @@ class WaitingListController extends Controller
             Mail::to(env('APP_ADMIN_EMAIL'))->send(new WaitingListSignup($wlUser));
 
         }
+        */
 
         return view('public-site.join-waiting-list', $bindings);
     }
